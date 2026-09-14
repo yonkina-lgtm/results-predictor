@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeadPredictor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar panel">
+        <div class="brand" aria-label="LeadPredictor brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <h1>LeadPredictor</h1>
+        </div>
+
+        <div class="field-group">
+          <label for="language">Language</label>
+          <div class="select-box" id="language" tabindex="0">
+            <span class="flag" aria-hidden="true">🇺🇸</span>
+            <span>English</span>
+            <span class="caret" aria-hidden="true">⌄</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="currency">Currency</label>
+          <div class="select-box" id="currency" tabindex="0">
+            <span class="currency-symbol">$</span>
+            <span>US Dollar</span>
+            <span class="caret" aria-hidden="true">⌄</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="campaign-start">Campaign Start</label>
+          <div class="date-box" id="campaign-start" tabindex="0">
+            <span>08-May-2026</span>
+            <span class="calendar" aria-hidden="true">📅</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="campaign-end">Campaign End</label>
+          <div class="date-box" id="campaign-end" tabindex="0">
+            <span>04-Nov-2026</span>
+            <span class="calendar" aria-hidden="true">📅</span>
+          </div>
+        </div>
+
+        <div class="field-group field-inline">
+          <label for="total-revenue">Total Revenue</label>
+          <div class="number-box" id="total-revenue" tabindex="0">
+            <span class="symbol">$</span>
+            <span>10000</span>
+          </div>
+        </div>
+
+        <div class="field-group field-inline">
+          <label for="avg-order-value">Avg. Order Value</label>
+          <div class="number-box" id="avg-order-value" tabindex="0">
+            <span class="symbol">$</span>
+            <span>1000</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <section class="chart-and-stats">
+          <div class="chart-panel panel">
+            <div class="chart-area">
+              <div class="y-axis">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+                <span>6</span>
+              </div>
+
+              <div class="bars-wrapper">
+                <div class="bar-stack stack-1" aria-label="Month 1 chart">
+                  <span class="bar segment small"></span>
+                </div>
+                <div class="bar-stack stack-2" aria-label="Month 2 chart">
+                  <span class="bar segment small"></span>
+                </div>
+                <div class="bar-stack stack-3" aria-label="Month 3 chart">
+                  <span class="bar segment small"></span>
+                </div>
+                <div class="bar-stack stack-4" aria-label="Month 4 chart">
+                  <span class="bar segment small"></span>
+                </div>
+                <div class="bar-stack stack-5" aria-label="Month 5 chart">
+                  <span class="bar segment small"></span>
+                </div>
+                <div class="bar-stack stack-6" aria-label="Month 6 chart">
+                  <span class="bar segment small"></span>
+                </div>
+              </div>
+
+              <div class="chart-legend">
+                <span>0 people</span>
+                <span>10 people</span>
+                <span>20 people</span>
+                <span>40 people</span>
+                <span>60 people</span>
+                <span>80 people</span>
+                <span>100 people</span>
+                <span>120 people</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-column">
+            <div class="metric-card panel">
+              <div class="metric-header">
+                <span class="metric-icon metric-icon--prospects" aria-hidden="true"></span>
+                <span>Prospects</span>
+                <span class="metric-percent">100%</span>
+              </div>
+              <div class="metric-value">125</div>
+              <div class="metric-bar"><span style="width: 100%"></span></div>
+            </div>
+
+            <div class="metric-card panel">
+              <div class="metric-header">
+                <span class="metric-icon metric-icon--leads" aria-hidden="true"></span>
+                <span>Leads</span>
+                <span class="metric-percent">20%</span>
+              </div>
+              <div class="metric-value">25</div>
+              <div class="metric-bar"><span style="width: 20%"></span></div>
+            </div>
+
+            <div class="metric-card panel">
+              <div class="metric-header">
+                <span class="metric-icon metric-icon--customers" aria-hidden="true"></span>
+                <span>Customers</span>
+                <span class="metric-percent">8%</span>
+              </div>
+              <div class="metric-value">10</div>
+              <div class="metric-bar"><span style="width: 8%"></span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="sliders panel">
+          <div class="slider-row">
+            <label for="lead-rate">Lead Response Rate</label>
+            <div class="range-wrap">
+              <input id="lead-rate" type="range" min="0" max="100" value="40" />
+              <span class="range-value">40.00%</span>
+            </div>
+          </div>
+
+          <div class="slider-row">
+            <label for="prospect-rate">Prospect Response Rate</label>
+            <div class="range-wrap">
+              <input id="prospect-rate" type="range" min="0" max="100" value="20" />
+              <span class="range-value">20.00%</span>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
