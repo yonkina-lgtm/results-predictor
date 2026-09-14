@@ -1,9 +1,72 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Translation dictionary
+  const translations = {
+    en: {
+      label_language: 'Language',
+      label_currency: 'Currency',
+      label_campaign_start: 'Campaign Start',
+      label_campaign_end: 'Campaign End',
+      label_total_revenue: 'Total Revenue',
+      label_avg_order_value: 'Avg. Order Value',
+      label_prospects: 'Prospects',
+      label_leads: 'Leads',
+      label_customers: 'Customers',
+      label_lead_response_rate: 'Lead Response Rate',
+      label_prospect_response_rate: 'Prospect Response Rate'
+    },
+    es: {
+      label_language: 'Idioma',
+      label_currency: 'Moneda',
+      label_campaign_start: 'Inicio de Campaña',
+      label_campaign_end: 'Fin de Campaña',
+      label_total_revenue: 'Ingresos Totales',
+      label_avg_order_value: 'Valor Promedio de Orden',
+      label_prospects: 'Prospectos',
+      label_leads: 'Clientes Potenciales',
+      label_customers: 'Clientes',
+      label_lead_response_rate: 'Tasa de Respuesta de Clientes Potenciales',
+      label_prospect_response_rate: 'Tasa de Respuesta de Prospectos'
+    },
+    fr: {
+      label_language: 'Langue',
+      label_currency: 'Devise',
+      label_campaign_start: 'Début de Campagne',
+      label_campaign_end: 'Fin de Campagne',
+      label_total_revenue: 'Revenu Total',
+      label_avg_order_value: 'Valeur Moyenne de la Commande',
+      label_prospects: 'Prospects',
+      label_leads: 'Pistes',
+      label_customers: 'Clients',
+      label_lead_response_rate: 'Taux de Réponse des Pistes',
+      label_prospect_response_rate: 'Taux de Réponse des Prospects'
+    },
+    de: {
+      label_language: 'Sprache',
+      label_currency: 'Währung',
+      label_campaign_start: 'Kampanienstart',
+      label_campaign_end: 'Kampagnenende',
+      label_total_revenue: 'Gesamtumsatz',
+      label_avg_order_value: 'Durchschnittlicher Bestellwert',
+      label_prospects: 'Aussichten',
+      label_leads: 'Leads',
+      label_customers: 'Kunden',
+      label_lead_response_rate: 'Lead-Antwortsatz',
+      label_prospect_response_rate: 'Aussichtsantwortsatz'
+    }
+  };
+
   // Get input elements
-  const totalRevenueEl = document.getElementById('total-revenue');
-  const avgOrderValueEl = document.getElementById('avg-order-value');
+  const totalRevenueInput = document.getElementById('total-revenue');
+  const avgOrderValueInput = document.getElementById('avg-order-value');
   const leadRateSlider = document.getElementById('lead-rate');
   const prospectRateSlider = document.getElementById('prospect-rate');
+  
+  // Get control elements
+  const languageSelect = document.getElementById('language');
+  const currencySelect = document.getElementById('currency');
+  const campaignStartInput = document.getElementById('campaign-start');
+  const campaignEndInput = document.getElementById('campaign-end');
+  const currencySymbols = document.querySelectorAll('.number-box .symbol');
 
   // Get metric card elements
   const metricCards = document.querySelectorAll('.metric-card');
@@ -15,10 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const barStacks = document.querySelectorAll('.bar-stack');
   const maxValue = 120; // Maximum scale for chart (from legend: 120 people)
 
-  // Function to extract numeric value from a number-box element
-  const getNumberBoxValue = (element) => {
-    const numberSpan = element.querySelector('span:last-child');
-    return parseFloat(numberSpan?.textContent) || 0;
+  // Function to get numeric value from input field
+  const getInputValue = (inputElement) => {
+    return parseFloat(inputElement.value) || 0;
+  };
+
+  // Function to update all translations
+  const updateLanguage = (lang) => {
+    const langTranslations = translations[lang] || translations['en'];
+    const elements = document.querySelectorAll('[data-i18n]');
+    
+    elements.forEach((element) => {
+      const key = element.getAttribute('data-i18n');
+      if (langTranslations[key]) {
+        element.textContent = langTranslations[key];
+      }
+    });
   };
 
   // Function to update metric card value
@@ -76,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Calculate and update all metrics and chart
   const calculate = () => {
-    const revenue = getNumberBoxValue(totalRevenueEl);
-    const avgOrderValue = getNumberBoxValue(avgOrderValueEl);
+    const revenue = getInputValue(totalRevenueInput);
+    const avgOrderValue = getInputValue(avgOrderValueInput);
     const leadRate = parseFloat(leadRateSlider.value);
     const prospectRate = parseFloat(prospectRateSlider.value);
 
@@ -114,6 +189,27 @@ document.addEventListener('DOMContentLoaded', () => {
     output.textContent = `${value.toFixed(2)}%`;
   };
 
+  // Update currency symbols when currency changes
+  const updateCurrencySymbols = () => {
+    const selectedOption = currencySelect.options[currencySelect.selectedIndex];
+    const symbol = selectedOption.getAttribute('data-symbol');
+    currencySymbols.forEach(el => {
+      el.textContent = symbol;
+    });
+  };
+
+  // Set up event listeners for revenue and AOV inputs
+  totalRevenueInput.addEventListener('input', calculate);
+  avgOrderValueInput.addEventListener('input', calculate);
+
+  // Set up event listener for currency changes
+  currencySelect.addEventListener('change', updateCurrencySymbols);
+
+  // Set up event listener for language changes
+  languageSelect.addEventListener('change', (e) => {
+    updateLanguage(e.target.value);
+  });
+
   // Set up event listeners for all sliders
   const sliders = document.querySelectorAll('input[type="range"]');
   sliders.forEach((slider) => {
@@ -123,6 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     updateSliderValue(slider);
   });
+
+  // Initialize currency symbols
+  updateCurrencySymbols();
+
+  // Initialize language
+  updateLanguage(languageSelect.value);
 
   // Perform initial calculation
   calculate();

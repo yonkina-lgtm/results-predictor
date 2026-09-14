@@ -15,52 +15,48 @@
         </div>
 
         <div class="field-group">
-          <label for="language">Language</label>
-          <div class="select-box" id="language" tabindex="0">
-            <span class="flag" aria-hidden="true">🇺🇸</span>
-            <span>English</span>
-            <span class="caret" aria-hidden="true">⌄</span>
-          </div>
+          <label for="language" data-i18n="label_language">Language</label>
+          <select id="language" class="select-box">
+            <option value="en" data-flag="🇺🇸">English</option>
+            <option value="es" data-flag="🇪🇸">Español</option>
+            <option value="fr" data-flag="🇫🇷">Français</option>
+            <option value="de" data-flag="🇩🇪">Deutsch</option>
+          </select>
         </div>
 
         <div class="field-group">
-          <label for="currency">Currency</label>
-          <div class="select-box" id="currency" tabindex="0">
-            <span class="currency-symbol">$</span>
-            <span>US Dollar</span>
-            <span class="caret" aria-hidden="true">⌄</span>
-          </div>
+          <label for="currency" data-i18n="label_currency">Currency</label>
+          <select id="currency" class="select-box">
+            <option value="USD" data-symbol="$">US Dollar</option>
+            <option value="EUR" data-symbol="€">Euro</option>
+            <option value="GBP" data-symbol="£">British Pound</option>
+            <option value="JPY" data-symbol="¥">Japanese Yen</option>
+          </select>
         </div>
 
         <div class="field-group">
-          <label for="campaign-start">Campaign Start</label>
-          <div class="date-box" id="campaign-start" tabindex="0">
-            <span>08-May-2026</span>
-            <span class="calendar" aria-hidden="true">📅</span>
-          </div>
+          <label for="campaign-start" data-i18n="label_campaign_start">Campaign Start</label>
+          <input type="date" id="campaign-start" class="date-box" value="2026-05-08" />
         </div>
 
         <div class="field-group">
-          <label for="campaign-end">Campaign End</label>
-          <div class="date-box" id="campaign-end" tabindex="0">
-            <span>04-Nov-2026</span>
-            <span class="calendar" aria-hidden="true">📅</span>
+          <label for="campaign-end" data-i18n="label_campaign_end">Campaign End</label>
+          <input type="date" id="campaign-end" class="date-box" value="2026-11-04" />
+        </div>
+
+        <div class="field-group field-inline">
+          <label for="total-revenue" data-i18n="label_total_revenue">Total Revenue</label>
+          <div class="number-box" id="total-revenue-box">
+            <span class="symbol">$</span>
+            <input type="number" id="total-revenue" value="10000" min="0" />
           </div>
         </div>
 
         <div class="field-group field-inline">
-          <label for="total-revenue">Total Revenue</label>
-          <div class="number-box" id="total-revenue" tabindex="0">
+          <label for="avg-order-value" data-i18n="label_avg_order_value">Avg. Order Value</label>
+          <div class="number-box" id="avg-order-value-box">
             <span class="symbol">$</span>
-            <span>10000</span>
-          </div>
-        </div>
-
-        <div class="field-group field-inline">
-          <label for="avg-order-value">Avg. Order Value</label>
-          <div class="number-box" id="avg-order-value" tabindex="0">
-            <span class="symbol">$</span>
-            <span>1000</span>
+            <input type="number" id="avg-order-value" value="1000" min="0" />
           </div>
         </div>
       </aside>
@@ -128,7 +124,7 @@
             <div class="metric-card panel">
               <div class="metric-header">
                 <span class="metric-icon metric-icon--prospects" aria-hidden="true"></span>
-                <span>Prospects</span>
+                <span data-i18n="label_prospects">Prospects</span>
                 <span class="metric-percent">100%</span>
               </div>
               <div class="metric-value">125</div>
@@ -138,7 +134,7 @@
             <div class="metric-card panel">
               <div class="metric-header">
                 <span class="metric-icon metric-icon--leads" aria-hidden="true"></span>
-                <span>Leads</span>
+                <span data-i18n="label_leads">Leads</span>
                 <span class="metric-percent">20%</span>
               </div>
               <div class="metric-value">25</div>
@@ -148,7 +144,7 @@
             <div class="metric-card panel">
               <div class="metric-header">
                 <span class="metric-icon metric-icon--customers" aria-hidden="true"></span>
-                <span>Customers</span>
+                <span data-i18n="label_customers">Customers</span>
                 <span class="metric-percent">8%</span>
               </div>
               <div class="metric-value">10</div>
@@ -159,7 +155,7 @@
 
         <section class="sliders panel">
           <div class="slider-row">
-            <label for="lead-rate">Lead Response Rate</label>
+            <label for="lead-rate" data-i18n="label_lead_response_rate">Lead Response Rate</label>
             <div class="range-wrap">
               <input id="lead-rate" type="range" min="0" max="100" value="40" />
               <span class="range-value">40.00%</span>
@@ -167,7 +163,7 @@
           </div>
 
           <div class="slider-row">
-            <label for="prospect-rate">Prospect Response Rate</label>
+            <label for="prospect-rate" data-i18n="label_prospect_response_rate">Prospect Response Rate</label>
             <div class="range-wrap">
               <input id="prospect-rate" type="range" min="0" max="100" value="20" />
               <span class="range-value">20.00%</span>
