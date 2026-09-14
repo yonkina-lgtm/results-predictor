@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Get bar stacks for chart
   const barStacks = document.querySelectorAll('.bar-stack');
-  const maxValue = 120; // Maximum scale for chart (from legend: 120 people)
 
   // Function to get numeric value from input field
   const getInputValue = (inputElement) => {
@@ -117,35 +116,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Calculate and update chart bars
   const updateChartBars = (clients, leads, prospects) => {
+    // First pass: calculate all month values to find the maximum
+    let maxTotalHeight = 0;
+    const monthData = [];
+    
     barStacks.forEach((stack, index) => {
       const month = index + 1;
-      // Monthly growth factor: each month gets progressively larger
       const monthFactor = month / 6;
-
-      // Calculate values for this month
+      
       const monthCustomers = Math.round(clients * monthFactor);
       const monthLeads = Math.round(leads * monthFactor);
       const monthProspects = Math.round(prospects * monthFactor);
-
-      // Total height is based on largest value
+      
       const totalHeight = monthCustomers + monthLeads + monthProspects;
-      const maxHeight = maxValue;
-      const scale = totalHeight > 0 ? Math.min(totalHeight / maxHeight, 1) * 100 : 0;
-
+      maxTotalHeight = Math.max(maxTotalHeight, totalHeight);
+      
+      monthData.push({
+        stack,
+        monthCustomers,
+        monthLeads,
+        monthProspects,
+        totalHeight,
+        month
+      });
+    });
+    
+    // Ensure maxTotalHeight is at least 1 to avoid division by zero
+    if (maxTotalHeight === 0) {
+      maxTotalHeight = 1;
+    }
+    
+    // Second pass: update bars with dynamic scaling
+    monthData.forEach((data) => {
+      const scale = (data.totalHeight / maxTotalHeight) * 100;
+      
       // Calculate proportions for each segment
-      const customersHeight = totalHeight > 0 ? (monthCustomers / totalHeight) * scale : 0;
-      const leadsHeight = totalHeight > 0 ? (monthLeads / totalHeight) * scale : 0;
-      const prospectsHeight = totalHeight > 0 ? (monthProspects / totalHeight) * scale : 0;
-
+      const customersHeight = data.totalHeight > 0 ? (data.monthCustomers / data.totalHeight) * scale : 0;
+      const leadsHeight = data.totalHeight > 0 ? (data.monthLeads / data.totalHeight) * scale : 0;
+      const prospectsHeight = data.totalHeight > 0 ? (data.monthProspects / data.totalHeight) * scale : 0;
+      
       // Update segments
-      const segments = stack.querySelectorAll('.segment');
+      const segments = data.stack.querySelectorAll('.segment');
       if (segments[0]) segments[0].style.height = `${prospectsHeight}%`;
       if (segments[1]) segments[1].style.height = `${leadsHeight}%`;
       if (segments[2]) segments[2].style.height = `${customersHeight}%`;
-
+      
       // Update tooltip
-      const tooltipText = `Month #${month} Prospects: ${monthProspects} Leads: ${monthLeads} Customers: ${monthCustomers}`;
-      stack.setAttribute('data-tooltip', tooltipText);
+      const tooltipText = `Month #${data.month} Prospects: ${data.monthProspects} Leads: ${data.monthLeads} Customers: ${data.monthCustomers}`;
+      data.stack.setAttribute('data-tooltip', tooltipText);
     });
   };
 
