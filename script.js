@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const leadCard = metricCards[1];
   const customerCard = metricCards[2];
 
+  // Get bar stacks for chart
+  const barStacks = document.querySelectorAll('.bar-stack');
+  const maxValue = 120; // Maximum scale for chart (from legend: 120 people)
+
   // Function to extract numeric value from a number-box element
   const getNumberBoxValue = (element) => {
     const numberSpan = element.querySelector('span:last-child');
@@ -36,12 +40,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Calculate and update all metrics
+  // Calculate and update chart bars
+  const updateChartBars = (clients, leads, prospects) => {
+    barStacks.forEach((stack, index) => {
+      const month = index + 1;
+      // Monthly growth factor: each month gets progressively larger
+      const monthFactor = month / 6;
+
+      // Calculate values for this month
+      const monthCustomers = Math.round(clients * monthFactor);
+      const monthLeads = Math.round(leads * monthFactor);
+      const monthProspects = Math.round(prospects * monthFactor);
+
+      // Total height is based on largest value
+      const totalHeight = monthCustomers + monthLeads + monthProspects;
+      const maxHeight = maxValue;
+      const scale = totalHeight > 0 ? Math.min(totalHeight / maxHeight, 1) * 100 : 0;
+
+      // Calculate proportions for each segment
+      const customersHeight = totalHeight > 0 ? (monthCustomers / totalHeight) * scale : 0;
+      const leadsHeight = totalHeight > 0 ? (monthLeads / totalHeight) * scale : 0;
+      const prospectsHeight = totalHeight > 0 ? (monthProspects / totalHeight) * scale : 0;
+
+      // Update segments
+      const segments = stack.querySelectorAll('.segment');
+      if (segments[0]) segments[0].style.height = `${prospectsHeight}%`;
+      if (segments[1]) segments[1].style.height = `${leadsHeight}%`;
+      if (segments[2]) segments[2].style.height = `${customersHeight}%`;
+
+      // Update tooltip
+      const tooltipText = `Month #${month} Prospects: ${monthProspects} Leads: ${monthLeads} Customers: ${monthCustomers}`;
+      stack.setAttribute('data-tooltip', tooltipText);
+    });
+  };
+
+  // Calculate and update all metrics and chart
   const calculate = () => {
     const revenue = getNumberBoxValue(totalRevenueEl);
     const avgOrderValue = getNumberBoxValue(avgOrderValueEl);
     const leadRate = parseFloat(leadRateSlider.value);
     const prospectRate = parseFloat(prospectRateSlider.value);
+
+    // Avoid division by zero
+    if (avgOrderValue === 0 || leadRate === 0 || prospectRate === 0) {
+      return;
+    }
 
     // Formula 01: Clients = Revenue / Average Order Value
     const clients = revenue / avgOrderValue;
@@ -56,6 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMetricCard(customerCard, clients);
     updateMetricCard(leadCard, leads, leadRate);
     updateMetricCard(prospectCard, prospects, prospectRate);
+
+    // Update chart bars
+    updateChartBars(clients, leads, prospects);
   };
 
   // Update range slider display value
@@ -77,11 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     updateSliderValue(slider);
   });
-
-  // Set up event listeners for input number boxes
-  // Listen for changes on the number-box elements (if they become editable in the future)
-  // For now, we'll just do an initial calculation
-  // Note: If you make these elements editable, add appropriate event listeners
 
   // Perform initial calculation
   calculate();

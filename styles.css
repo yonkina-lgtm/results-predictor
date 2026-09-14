@@ -244,15 +244,44 @@ body {
 }
 
 .segment {
-  height: 40%;
+  position: relative;
+  width: 100%;
+  flex-grow: 0;
 }
 
-.stack-1 .segment { height: 16%; }
-.stack-2 .segment { height: 22%; }
-.stack-3 .segment { height: 38%; }
-.stack-4 .segment { height: 58%; }
-.stack-5 .segment { height: 68%; }
-.stack-6 .segment { height: 80%; }
+.segment-prospects {
+  background: linear-gradient(180deg, rgba(184, 194, 201, 0.8), rgba(121, 135, 146, 0.8));
+}
+
+.segment-leads {
+  background: linear-gradient(180deg, rgba(155, 165, 175, 0.9), rgba(105, 120, 130, 0.8));
+}
+
+.segment-customers {
+  background: linear-gradient(180deg, rgba(130, 140, 150, 0.9), rgba(90, 105, 115, 0.8));
+}
+
+.bar-stack::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  background: rgba(30, 45, 59, 0.95);
+  color: #edf3f8;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.2s;
+  border: 1px solid rgba(181, 197, 214, 0.3);
+}
+
+.bar-stack:hover::after {
+  opacity: 1;
+}
 
 .chart-legend {
   position: absolute;
